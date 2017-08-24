@@ -1,0 +1,113 @@
+<header>
+  <nav class="header">
+    <ul id="menu">
+      <li lang="contract">
+        Contract Model
+      </li>
+
+      <li lang="models">
+        <%= link_to('Models', models_path) %>
+      </li>
+
+      <li lang="customers">
+        <%= link_to('Customers', customers_path) %>
+      </li>
+
+      <li lang="name_user">
+        <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">
+          <%= current_user.name %>
+          <i class="fa fa-sort-desc"></i>
+        </button>
+          <i class="fa fa-sort-desc"></i>
+          <div id="myDropdown" class="dropdown-content">
+            <a href="#" lang="user-settings">User Settings</a>
+            <%= link_to('Sign Out', destroy_user_session_path, method: :delete) %>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<section class="table_customer">
+  <div class="row">
+    <div class="title_table">
+      Models
+      <%= link_to('Add a New Model', new_model_path, class: "btn btn-primary") %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="search">
+      <input type="text" id="find" placeholder="Search"/>
+    </div>
+  </div>
+  <div class="viewed">
+    recently viewed
+  </div>
+
+  <div class="table_models_head">
+    <ul id="column">
+      <li lang="table_models_name">
+        <p>Model Name <i class="fa fa-sort-desc"></i></p>
+      </li>
+
+      <li lang="table_models_creator">
+        <p>Creator <i class="fa fa-sort-desc"></i></p>
+      </li>
+
+      <li lang="table_models_date">
+        <p>Date Created <i class="fa fa-sort-desc"></i></p>
+      </li>
+
+      <li lang="table_models_modified">
+        <p>Last Modified <i class="fa fa-sort-desc"></i></p>
+      </li>
+    </ul>
+  </div><!--table_head-->
+  <div class="table_model">
+    <table class="table">
+      <thead>
+      <tr>
+        <td class="body_model_name">1</td>
+        <td class="body_model_creator">2</td>
+        <td class="body_model_date_created">3</td>
+        <td class="body_model_last_modified">4</td>
+        <td class="body_model_edit">
+          <a href=""><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
+        <td class="body_model_right">
+          <a href=""><i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+        </td>
+      </thead>
+    </table>
+  </div> <!--table_model-->
+
+  <div class="all_model">
+    all models
+  </div>
+
+  <div class="all_table_model">
+    <table class="table">
+      <thead>
+      <%- @models.each do |model| %>
+          <tr>
+            <td class="body_model_name">
+              <%= link_to(model.name, model_path(model)) %>
+            </td>
+            <td class="body_model_creator"><%= model.user.name %></td>
+            <td class="body_model_date_created"><%= model.created_at %></td>
+            <td class="body_model_last_modified"><%= model.updated_at %></td>
+            <td class="body_model_edit">
+              <a href=""><i class="fa fa-pencil" aria-hidden="true"></i></a>
+            </td>
+            <td class="body_model_right">
+              <a href=""><i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+            </td>
+
+          </tr>
+      <%- end %>
+      </thead>
+    </table>
+  </div><!--all_table_model-->
+</section> <!--table_customer-->

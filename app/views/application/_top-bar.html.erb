@@ -1,0 +1,31 @@
+<header>
+  <nav class="header">
+    <ul id="menu">
+      <li lang="contract">
+        Contract Model
+      </li>
+
+      <li lang="models">
+        <%= link_to('Models', models_path) %>
+      </li>
+
+      <li lang="customers">
+        <%= link_to('Customers', customers_path) %>
+      </li>
+
+      <li lang="name_user">
+        <div class="dropdown">
+          <button onclick="myFunction()" class="dropbtn">
+            <%= current_user.name %>
+            <span class="caret" onclick="myFunction()"></span>
+          </button>
+          <div id="myDropdown" class="dropdown-content">
+            <a><%= link_to('User Settings', edit_user_path(current_user)) %></a>
+            <a lang="sign"><%= link_to('Sign Out', destroy_user_session_path, method: :delete) %></a>
+          </div>
+        </div>
+      </li><!--name_user-->
+    </ul>
+  </nav>
+</header>
+ 

@@ -1,0 +1,121 @@
+<%= render partial: 'top-bar' %>
+
+<section class="table_models">
+  <div class="row">
+    <div class="title_table">
+      Models
+      <button onclick="showForm()" class="btn btn-primary">
+        Add a New Model
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="search">
+      <input type="text" placeholder="Search" class="form-control" id="Search"/>
+    </div>
+  </div>
+  <div class="viewed hidden">
+    recently viewed
+  </div>
+
+  <div class="table_models_head hidden">
+    <ul id="column">
+      <li lang="table_models_name">
+        <p>Model Name <i class="fa fa-sort-desc"></i></p>
+      </li>
+
+      <li lang="table_models_creator">
+        <p>Creator <i class="fa fa-sort-desc"></i></p>
+      </li>
+
+      <li lang="table_models_date">
+        <p>Date Created <i class="fa fa-sort-desc"></i></p>
+      </li>
+
+      <li lang="table_models_modified">
+        <p>Last Modified <i class="fa fa-sort-desc"></i></p>
+      </li>
+    </ul>
+  </div><!--table_head-->
+  <div class="table_model hidden">
+    <table class="table">
+      <thead>
+      <tr>
+        <td class="body_model_name">1</td>
+        <td class="body_model_creator">2</td>
+        <td class="body_model_date_created">3</td>
+        <td class="body_model_last_modified">4</td>
+        <td class="body_model_edit">
+        <a href=""><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
+        <td class="body_model_right">
+          <a href=""><i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+        </td>
+      </thead>
+    </table>
+  </div> <!--table_model-->
+
+  <div class="all_model">
+    all models
+  </div>
+
+  <div class="all_table_model">
+    <table class="table">
+      <thead>
+      <%- @models.each do |model| %>
+          <tr>
+            <td class="body_model_name">
+              <%= link_to(model.name, model_path(model)) %>
+            </td>
+            <td class="body_model_creator"><%= model.user.name %></td>
+            <td class="body_model_date_created"><%= model.created_at %></td>
+            <td class="body_model_last_modified"><%= model.updated_at %></td>
+            <td class="body_model_edit">
+              <a href=""><i class="fa fa-pencil" aria-hidden="true"></i></a>
+            </td>
+            <td class="body_model_right">
+              <%= link_to(model_path(model)) do %>
+                  <i class="fa fa-arrow-right" aria-hidden="true"></i>
+              <%- end %>
+            </td>
+          </tr>
+      <%- end %>
+      </thead>
+    </table>
+  </div><!--all_table_model-->
+</section> <!--table_customer-->
+
+<div id="overlay">
+  <div id="overlay-box">
+    <div class="add_model">
+      <div class="new">
+        <button class="close" aria-hidden="true" onclick="hideForm()">&times;</button>
+        <%= form_for(@model) do |f| %>
+            <p lang="title">Add New Model</p>
+            <% if @model.errors.any? %>
+                <div id="error_explanation">
+                  <h2><%= pluralize(@model.errors.count, "error") %> prohibited
+                    this model from being saved:</h2>
+
+                  <ul>
+                    <% @model.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                    <% end %>
+                  </ul>
+                </div>
+            <% end %>
+            <div class="text">
+              <p>Model Name</p>
+              <%= f.text_field :name %>
+            </div>
+            <div class="button_add">
+              <button id="cancel" onclick="hideForm();return false;">Cancel</button>
+              <%= f.submit 'Add Model', id: 'add' %>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+

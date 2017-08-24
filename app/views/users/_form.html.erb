@@ -1,0 +1,66 @@
+<%= render partial: 'top-bar' %>
+
+<section class="user_settings">
+  <nav class="menu">
+    <ul>
+      <li>
+        <a href="">Model</a>
+      </li>
+      <li lang="user_settings_padding">
+        /
+      </li>
+      <li>
+        User Settings
+      </li>
+    </ul>
+  </nav>
+</section>
+
+<section class="name_user_settings">
+
+  <%= form_for(model) do |f| %>
+      <% if model.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(model.errors.count, "error") %> prohibited this
+              model from being saved:</h2>
+
+            <ul>
+              <% model.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+      <% end %>
+
+
+      <div class="row">
+        <p>User Settings</p>
+      </div>
+      <div class="user_menu">
+        <p lang="name_user">Name</p>
+        <p lang="email_user">Email</p>
+      </div>
+      <div class="input_menu">
+        <%= f.text_field :name, id: :name_user %>
+        <%= f.text_field :email, id: :email_user %>
+      </div>
+      <div>
+        <p><hr width="900" color="red" size="2"/></p>
+      </div>
+      <div class="reset">
+        <p>Reset Password</p>
+      </div>
+      <div class="reset_menu">
+        <p lang="old_password">Old Password</p>
+        <p lang="new_password">New Password</p>
+      </div>
+      <div class="input_reset">
+        <input id="old_password" placeholder="Old Password"/>
+        <input id="new_password" placeholder="New Password"/>
+        <button id="reset_password">Reset</button>
+      </div>
+      <div class="save_changes">
+        <button id="save_changes">Save Changes</button>
+      </div>
+  <% end %>
+</section> <!--table_customer-->

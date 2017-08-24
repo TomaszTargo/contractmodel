@@ -1,0 +1,113 @@
+<%= render partial: 'top-bar' %>
+<section class="menu_customer_name">
+  <nav class="menu">
+    <ul>
+      <li>
+        <a href="">Model</a>
+      </li>
+      <li lang="menu_customer_padding">
+        /
+      </li>
+      <li>
+        <a href="">Master Sales Agreement</a>
+      </li>
+      <li lang="menu_customer_next">
+        /
+      </li>
+      <li>
+        <%= @customer.name %>
+      </li>
+    </ul>
+  </nav>
+</section>
+
+<section class="customer_editor">
+  <div class="row">
+    <div class="title_table">
+      <p><%= @customer.name %>
+        <button class="btn btn-primary">Download CSV</button>
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="search">
+      <input type="text" id="find" value="Search"/>
+    </div>
+  </div>
+
+  <div class="table_customer_head">
+    <ul id="column">
+      <li lang="customer_term_name">
+        <p>Term<i class="fa fa-sort-desc"></i></p>
+      </li>
+
+      <li lang="customer_models">
+        <p>Model</p>
+      </li>
+
+      <li lang="customer_draft">
+        <p>1st Draft</p>
+      </li>
+
+      <li lang="customer_draft_clear_all">
+        <p>Clear All</p>
+      </li>
+
+      <li lang="customer_final">
+        <p>Final</p>
+      </li>
+
+      <li lang="customer_final_clear_all">
+        <p>Clear All</p>
+      </li>
+
+      <li lang="customer_section_reference">
+        <p>Section Reference</p>
+      </li>
+    </ul>
+  </div><!--table_head-->
+
+  <div class="customer_term">
+    <table class="table">
+      <tbody> 
+      <%- @model.terms.each do |term| %>
+          <tr>
+            <td class="name">
+              <p><%= term.name %></p>
+            </td>
+            <td class="model">
+              <p><%= term.model_response.response %></p>
+            </td>
+            <td class="draft">
+              <div class="dropdown">
+                <a><%= form_for([@model, @customer, Answer.find_by(term_id: term.id, customer_id: @customer.id, stage: 'draft') || Answer.new]) do |f| %>
+                    <%= f.select :response_id, term.responses.collect { |p| [p.response, p.id] }, { include_blank: true }, onChange: "this.form.submit()" %>
+                    <%= f.hidden_field :term_id, value: term.id %>
+                    <%= f.hidden_field :stage, value: 'draft' %>
+                    <%= f.hidden_field :customer_id, value: @customer.id %>
+                <% end %></a>
+              </div>
+            </td>
+            <td class="final">
+              <div class="dropdown">
+                <%= form_for([@model, @customer, Answer.find_by(term_id: term.id, customer_id: @customer.id, stage: 'final') || Answer.new]) do |f| %>
+                    <%= f.select :response_id, term.responses.collect { |p| [p.response, p.id] }, { include_blank: true }, onChange: "this.form.submit()" %>
+                    <%= f.hidden_field :term_id, value: term.id %>
+                    <%= f.hidden_field :stage, value: 'final' %>
+                    <%= f.hidden_field :customer_id, value: @customer.id %>
+                <% end %>
+              </div>
+            </td>
+            <td class="section_reference">
+              <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                </button>
+              </div>
+            </td>
+          </tr>
+      <%- end %>
+      </tbody>
+    </table>
+  </div> <!--table_model-->
+</section> <!--table_customer-->

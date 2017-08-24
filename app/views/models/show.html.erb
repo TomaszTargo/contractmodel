@@ -1,0 +1,123 @@
+<%= render partial: 'top-bar' %>
+
+<section class="menu_master_model">
+  <nav class="menu">
+    <ul>
+      <li>
+        <%= link_to('Model', models_path) %>
+      </li>
+      <li lang="menu_master_padding">
+        /
+      </li>
+      <li>
+        <%= @model.name %>
+      </li>
+    </ul>
+  </nav>
+</section>
+
+<section class="table_model_sales">
+  <div class="row">
+    <div class="results_sale">
+      <p><i class="fa fa-minus" aria-hidden="true"></i>Results</p>
+    </div>
+    <div class="master_sales">
+      <p>
+        <%= @model.name %>
+        <button class="btn btn-primary" onclick="showForm()">
+          Add New Customer
+        </button>
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="search_sales">
+      <p>
+        <i class="fa fa-minus" aria-hidden="true"></i>
+        <%= link_to('Terms & Responses', model_terms_url(@model)) %>
+        <a href=""></a>
+      </p>
+      <div class="left-inner-addon">
+        <i class="icon-search"></i>
+        <input type="text" id="find" placeholder="Search"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="table_sales_customer_head">
+    <ul id="column">
+      <li lang="table_customer_name">
+        <p>Customer Name <i class="fa fa-sort-desc"></i></p>
+      </li>
+
+      <li lang="customer_draft_score">
+        <p>1st Draft Score <i class="fa fa-sort-desc"></i></p>
+      </li>
+
+      <li lang="customer_final_score">
+        <p>Final Score <i class="fa fa-sort-desc"></i></p>
+      </li>
+    </ul>
+  </div><!--table_sales_customer_head-->
+
+  <div class="table_sales_customer_body">
+    <table class="table">
+      <thead>
+
+      <%- @model.customers.each do |customer| %>
+          <tr>
+            <td class="body_name_customer">
+              <%= customer.name %>
+            </td>
+            <td class="body_customer_draft_score">
+              <i class="fa fa-circle" aria-hidden="true"></i>40
+            </td>
+            <td class="body_customer_final_score">
+              <i class="fa fa-circle" aria-hidden="true"></i>20
+            </td>
+            <td class="go_edit_customer">
+              <%= link_to model_customer_path(@model, customer) do %>
+                  <i class="fa fa-arrow-right" aria-hidden="true"></i>
+              <%- end %>
+            </td>
+          </tr>
+      <%- end %>
+      </thead>
+    </table>
+  </div><!--table_sales_customer_body-->
+</section>
+
+<div id="overlay">
+  <div id="overlay-box">
+    <div class="add_customer">
+      <%= form_for([@model, @customer]) do |f| %>
+          <% if @customer.errors.any? %>
+              <div id="error_explanation">
+                <h2>
+                  <%= pluralize(@customer.errors.count, 'error') %> prohibited
+                  this customer from being saved:</h2>
+
+                <ul>
+                  <% @customer.errors.full_messages.each do |message| %>
+                      <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+          <% end %>
+          <div class="new">
+            <button class="close" aria-hidden="true" onClick="hideForm();return false">&times;</button>
+            <p lang="title">Add New Customer</p>
+            <div class="text">
+              <p>Customer Name</p>
+              <%= f.text_field :name, placeholder: 'Customer Name', id: 'customer_name' %>
+            </div>
+            <div class="button_add">
+              <button id="cancel" onClick="hideForm();return false">Cancel</button>
+              <button id="add">Add Customer</button>
+            </div>
+          </div>
+      <% end %>
+    </div>
+  </div>
+</div>

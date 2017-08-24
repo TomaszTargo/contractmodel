@@ -1,0 +1,58 @@
+<%= render partial: 'top-bar' %>
+
+<div class="table_customer">
+  <div class="row">
+    <div class="title_table">
+      Customers
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="search">
+      <input type="text" id="find" placeholder="Search"/>
+    </div>
+  </div>
+
+  <div class="table_customers_head">
+    <ul id="column">
+      <li lang="table_customers_name">
+        <p>Customer Name <i class="fa fa-sort-desc"></i></p>
+      </li>
+
+      <li lang="table_customers_models">
+        <p>Models <i class="fa fa-sort-desc"></i></p>
+      </li>
+
+      <li lang="table_customers_date">
+        <p>Date Created <i class="fa fa-sort-desc"></i></p>
+      </li>
+
+      <li lang="table_customers_modified">
+        <p>Lost Modified <i class="fa fa-sort-desc"></i></p>
+      </li>
+    </ul>
+  </div>
+
+  <div class="table_customers_body">
+    <table class="table">
+      <thead>
+      <%- @customers.each do |customer| %>
+          <tr>
+            <td class="body_customer_name"><%= customer.name %></td>
+            <td class="body_model_creator">
+              <%- customer.models.each do |model| %>
+                  <%= link_to(model.name, model_path(model)) %> <br/>
+              <%- end %>
+            </td>
+            <td class="body_customer_date_created">
+              <%= customer.created_at %>
+            </td>
+            <td class="body_customer_last_modified">
+              <%= customer.updated_at %>
+            </td>
+          </tr>
+      <%- end %>
+      </thead>
+    </table>
+  </div><!--all_table_model-->
+</div> <!--table_customer-->

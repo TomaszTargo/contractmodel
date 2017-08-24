@@ -1,0 +1,143 @@
+<%= render partial: 'top-bar' %>
+
+<section class="menu_master_model">
+  <nav class="menu">
+    <ul>
+      <li>
+        <%= link_to('Model', models_path) %>
+      </li>
+      <li lang="menu_master_padding">
+        /
+      </li>
+      <li>
+        <%= @model.name %>
+      </li>
+    </ul>
+  </nav>
+</section>
+
+<section class="table_model_sales">
+  <div class="row">
+    <div class="results_sale">
+      <%= link_to(model_url(@model)) do %>
+          <p><i class="fa fa-minus" aria-hidden="true"></i>Results</p>
+      <%- end %>
+    </div>
+    <div class="master_sales">
+      <p><%= @model.name %>
+        <button class="btn btn-primary" onclick="showForm()">Add New Term
+        </button>
+      <p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="search_sales">
+      <p>
+        <i class="fa fa-minus" aria-hidden="true"></i>
+        <%= link_to('Terms & Responses', model_terms_url(@model)) %>
+        <a href=""></a>
+      </p>
+      <div class="left-inner-addon">
+        <i class="icon-search"></i>
+        <input type="text" id="find" placeholder="Search"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="table_terms_head">
+    <ul id="column">
+      <li lang="table_term_name">
+        <p>Term <i class="fa fa-sort-desc"></i></p>
+      </li>
+
+      <li lang="term_description">
+        <p>Description <i class="fa fa-sort-desc"></i></p>
+      </li>
+
+      <li lang="term_weight">
+        <p>Weight <i class="fa fa-sort-desc"></i></p>
+      </li>
+
+      <li lang="term_responses">
+        <p>Responses <i class="fa fa-sort-desc"></i></p>
+      </li>
+
+      <li lang="term_points">
+        <p>Points <i class="fa fa-sort-desc"></i></p>
+      </li>
+    </ul>
+  </div>
+
+  <div class="table_terms_body">
+    <table class="table">
+      <thead>
+      <% @model.terms.each do |term| %>
+          <tr>
+            <td class="body_term_name"><%= term.name %></td>
+            <td class="body_term_description"><%= term.description %>
+            </td>
+            <td class="body_term_weight"><%= term.weight %></td>
+            <% term.responses.each do |response| %>
+                <td class="body_term_responses"><%= response.response %></td>
+                <td class="body_term_points"><%= response.points %></td>
+                <td class="go_edit_terms">
+                  <i class="fa fa-pencil" aria-hidden="true"></i></td>
+            <% end %>
+          </tr>
+      <% end %>
+      </thead>
+    </table>
+  </div>
+</section>
+
+
+<div id="overlay">
+  <div id="overlay-box">
+    <div class="edit_term">
+      <div class="new">
+        <button class="close" aria-hidden="true" onclick="hideForm()">&times;</button>
+        <%= form_for [@model, Term.new] do |f| %>
+            <p lang="title">Add a New Term</p>
+            <div class="text">
+              <div>
+                <p lang="name">Term Name</p>
+                <p lang="weight">Weight</p>
+              </div>
+              <%= f.text_field :name, id: 'term_name', placeholder: 'Term Name' %>
+              <%= f.text_field :weight, id: 'weight', placeholder: 'Numerical Weight' %>
+              <div>
+                <p lang="description">Description</p>
+                <%= f.text_area :description, id: 'description', placeholder: 'Description your Term' %>
+              </div>
+              <div class="hidden">
+                <p lang="playbook_position">Playbook Position (optional)</p>
+                <textarea class="expanding" id="playbook" placeholder="Playbook Position"></textarea>
+              </div>
+            </div><!--text-->
+            <div class="text" id="response">
+              <div>
+                <p lang="response">Response</p>
+                <p lang="points">Points</p>
+              </div>
+              <div id="responses-box">
+                <div class="response">
+                  <input name="term[responses_attributes][0][response]" id="response" placeholder="Response"/>
+                  <input name="term[responses_attributes][0][points]" id="points" placeholder="Numerical Points"/>
+                </div>
+              </div>
+
+              <p lang="add_respone">
+                <a href="#" onClick="addAnotherResponse(); return false;">Add
+                  Another Response</a>
+              </p>
+            </div><!--next_text-->
+            <div class="button_menu">
+              <button id="cancel" onclick="hideForm(); return false;">Cancel</button>
+              <button id="add">Save Term</button>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
